@@ -33,15 +33,15 @@
 
 
 #ifdef __APPLE__
-const int LEFT_ARROW_KEY = 2;
-const int RIGHT_ARROW_KEY = 3;
+const int LEFT_ARROW_KEY = 63234;
+const int RIGHT_ARROW_KEY = 63235;
 const int SPACE_KEY = 32;
 const int ENTER_KEY = 13;
 const int ESCAPE_KEY = 27;
 const int BACKSPACE_KEY = 8;
 
-const int DOWN_ARROW_KEY = 1;
-const int UP_ARROW_KEY= 0;
+const int DOWN_ARROW_KEY = 63233;
+const int UP_ARROW_KEY= 63232;
 
 #elif WINDOWS
 // https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
@@ -49,7 +49,7 @@ const int LEFT_ARROW_KEY = 37; // VK_LEFT
 const int RIGHT_ARROW_KEY = 39; // VK_RIGHT
 const int SPACE_KEY = 32; // VK_SPACE
 const int ENTER_KEY = 13; // VK_RETURN
-const int ESCAPE_KEY = 27; // VK_ESCAPE 
+const int ESCAPE_KEY = 27; // VK_ESCAPE
 const int BACKSPACE_KEY = 8; // VK_BACK
 
 const int DOWN_ARROW_KEY = 40; // VK_DOWN
@@ -113,21 +113,21 @@ void mouseCallback(int event, int x, int y, int flags, void* userdata)
     {
       int w = x - xPos1;
       int h = (int) (((float) w) / ASPECT_RATIO);
-      
+
       xPos2 = x;
       yPos2 = yPos1 + h;
-      
+
     }
     else if (rdragging)
     {
       int xDiff = x - rDragStartX;
       int yDiff = y - rDragStartY;
-      
+
       xPos1 += xDiff;
       yPos1 += yDiff;
       xPos2 += xDiff;
       yPos2 += yDiff;
-      
+
       rDragStartX = x;
       rDragStartY = y;
     }
@@ -171,13 +171,13 @@ int main( int argc, const char** argv )
 
   Config config(country);
   ASPECT_RATIO = config.plateWidthMM / config.plateHeightMM;
-  
+
   vector<string> files = getFilesInDir(inDir.c_str());
-  
+
   vector<string> imgFiles;
   sort( files.begin(), files.end(), stringCompare );
-  
-  
+
+
   for (int i = 0; i < files.size(); i++)
   {
     if (hasEnding(files[i], ".png") || hasEnding(files[i], ".jpg"))
@@ -185,32 +185,32 @@ int main( int argc, const char** argv )
       imgFiles.push_back(files[i]);
     }
   }
-  
+
 
   for (int i = 0; i< imgFiles.size(); i++)
   {
 
     cout << "Loading: " << imgFiles[i] << " (" << (i+1) << "/" << imgFiles.size() << ")" << endl;
-    
+
     string fullimgpath = inDir + "/" + imgFiles[i];
-    
+
     Mat frame = imread( fullimgpath.c_str() );
 
     if (frame.cols == 0 || frame.rows == 0)
       continue;
-    
-    
+
+
     string curplatetag = "";
 	  //Create a window
     namedWindow("Input image", 1);
 
     //set the callback function for any mouse event
     setMouseCallback("Input image", mouseCallback, NULL);
-    
+
     char key = (char) cv::waitKey(50);
     while (key != ENTER_KEY)
     {
-      
+
       if ((key >= '0' && key <= '9') || (key >= 'a' && key <= 'z'))
       {
 	curplatetag = curplatetag + (char) toupper( key );
@@ -222,15 +222,15 @@ int main( int argc, const char** argv )
       Mat tmpFrame(frame.size(), frame.type());
       frame.copyTo(tmpFrame);
       rectangle(tmpFrame, Point(xPos1, yPos1), Point(xPos2, yPos2), Scalar(0, 0, 255), 2);
-      
+
       rectangle(tmpFrame, Point(xPos1, yPos1 - 35), Point(xPos1 + 175, yPos1 - 5), Scalar(255, 255, 255), CV_FILLED);
       putText(tmpFrame, curplatetag, Point(xPos1 + 2, yPos1 - 10), FONT_HERSHEY_PLAIN, 1.5, Scalar(100,50,0), 2);
-      
+
       imshow("Input image", tmpFrame);
-      
+
       key = cv::waitKey(50);
     }
-    
+
     if (curplatetag != "")
     {
       // Write the data to disk
@@ -238,12 +238,12 @@ int main( int argc, const char** argv )
 
       std::string outputTextFile = outDir + "/" + filenameWithoutExtension(imgFiles[i]) + ".txt";
       outputdatafile.open(outputTextFile.c_str());
-      
+
       outputdatafile << imgFiles[i] << "\t" << xPos1 << "\t" << yPos1 << "\t" << (xPos2 - xPos1) << "\t" << (yPos2 - yPos1) << "\t" << curplatetag << endl;
       outputdatafile.close();
     }
-    
+
   }
-  
+
 }
 

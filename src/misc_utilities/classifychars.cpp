@@ -38,11 +38,11 @@ using namespace alpr;
 // These will be used to train the OCR
 
 #ifdef __APPLE__
-const int LEFT_ARROW_KEY = 2;
-const int RIGHT_ARROW_KEY = 3;
+const int LEFT_ARROW_KEY = 63234;
+const int RIGHT_ARROW_KEY = 63235;
 
-const int DOWN_ARROW_KEY = 1;
-const int UP_ARROW_KEY= 0;
+const int DOWN_ARROW_KEY = 63233;
+const int UP_ARROW_KEY= 63232;
 
 #elif WIN32
 const int LEFT_ARROW_KEY = 2424832;
@@ -147,10 +147,10 @@ int main( int argc, const char** argv )
         string statecodestr(statecode);
 
         CharacterAnalysis regionizer(&pipeline_data);
-        
+
         if (pipeline_data.plate_inverted)
           bitwise_not(pipeline_data.crop_gray, pipeline_data.crop_gray);
-        
+
         CharacterSegmenter charSegmenter(&pipeline_data);
 
         //ocr.cleanCharRegions(charSegmenter.thresholds, charSegmenter.characters);
@@ -253,12 +253,12 @@ int main( int argc, const char** argv )
                     continue;
 
                   stringstream filename;
-                  
+
                   // Ensure that crop rect does not extend beyond extent of image.
-                  cv::Rect char_region = expandRect(pipeline_data.charRegionsFlat[c], 0, 0, 
+                  cv::Rect char_region = expandRect(pipeline_data.charRegionsFlat[c], 0, 0,
                           pipeline_data.thresholds[t].cols,
                           pipeline_data.thresholds[t].rows);
-                  
+
                   Mat cropped = pipeline_data.thresholds[t](char_region);
                   filename << outDir << "/" << humanInputs[c] << "-" << t << "-" << files[i];
                   imwrite(filename.str(), cropped);
@@ -331,7 +331,7 @@ vector<string> showCharSelection(Mat image, vector<Rect> charRegions, string sta
     humanInputs[i] = SPACE;
 
   RegexRule regex_rule("", "[\\pL\\pN]", "", "");
-  
+
   int16_t waitkey = waitKey(50);
   while (waitkey != ENTER_KEY_ONE && waitkey != ENTER_KEY_TWO && waitkey != ESCAPE_KEY)
   {
