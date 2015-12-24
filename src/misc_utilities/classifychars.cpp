@@ -51,11 +51,11 @@ const int RIGHT_ARROW_KEY = 2555904;
 const int DOWN_ARROW_KEY = 2621440;
 const int UP_ARROW_KEY = 2490368;
 #else
-const int LEFT_ARROW_KEY = 81;
-const int RIGHT_ARROW_KEY = 83;
+const int LEFT_ARROW_KEY = 65361;
+const int RIGHT_ARROW_KEY = 65363;
 
-const int DOWN_ARROW_KEY = 84;
-const int UP_ARROW_KEY= 82;
+const int DOWN_ARROW_KEY = 65364;
+const int UP_ARROW_KEY= 65362;
 
 #endif
 

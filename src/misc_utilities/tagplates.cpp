@@ -55,15 +55,15 @@ const int BACKSPACE_KEY = 8; // VK_BACK
 const int DOWN_ARROW_KEY = 40; // VK_DOWN
 const int UP_ARROW_KEY= 38; // VK_UP
 #else
-const int LEFT_ARROW_KEY = 81;
-const int RIGHT_ARROW_KEY = 83;
+const int LEFT_ARROW_KEY = 65361;
+const int RIGHT_ARROW_KEY = 65363;
 const int SPACE_KEY = 32;
 const int ENTER_KEY = 10;
 const int ESCAPE_KEY = 27;
 const int BACKSPACE_KEY = 8;
 
-const int DOWN_ARROW_KEY = 84;
-const int UP_ARROW_KEY= 82;
+const int DOWN_ARROW_KEY = 65364;
+const int UP_ARROW_KEY= 65362;
 
 #endif
 
